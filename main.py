@@ -47,20 +47,22 @@ def print_string(string):
         sys.stdout.write(string[index])
     sys.stdout.write("\n");
 
-def get_last_tweet(self):
-    stuff = api.user_timeline(screen_name = twitter_account_sender, count = 1, include_rts = True)
-    for status in stuff:
-        last_tweet = status.text
-    return (last_tweet)
-
-def tweet_string(string, limit):
+def tweet_alert(string, limit):
     split_string = string[0].split(" ")
     euro = split_string[3].split(".")
+    tweet_current_value(''.join(string))
     if int(euro[0]) <= int(limit):
         tweet = twitter_account_receiver + "\n" + ''.join(string)
-        last_tweet = get_last_tweet(auth)
-        if last_tweet + "\n" != tweet:
+        try:
             api.update_status(status=tweet)
+        except:
+            pass
+
+def tweet_current_value(tweet):
+    try:
+        api.update_status(status=tweet)
+    except:
+        pass
 
 def usage():
     if len(sys.argv) != 3:
@@ -69,18 +71,18 @@ def usage():
 
 def main():
     usage()
-    #while True:
-    data = call_api()
+    while True:
+        data = call_api()
 
-    string = store_data(bitcoin, data);
-    print_string(string)
-    tweet_string(string, sys.argv[1])
+        string = store_data(bitcoin, data);
+        print_string(string)
+        tweet_alert(string, sys.argv[1])
 
-    string = store_data(ethereum, data);
-    print_string(string)
-    tweet_string(string, sys.argv[2])
+        string = store_data(ethereum, data);
+        print_string(string)
+        tweet_alert(string, sys.argv[2])
 
-    #time.sleep(60 * 30) #sleep 30 minutes
+        time.sleep(60 * 5) #Refresh every 5 minutes
 
 if __name__ == '__main__':
     main()
