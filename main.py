@@ -9,12 +9,12 @@ import time
 bitcoin = 0
 ethereum = 1
 
-consumer_key = ""
-consumer_secret = ""
-access_token = ""
-access_token_secret = ""
-twitter_account_sender = "" #without @
-twitter_account_receiver = "" # with @
+consumer_key = "FaPyaPbwQaTowyoNqYaocSrSx"
+consumer_secret = "nv48mkV2OJWa3WHaD7ftaP7NtNdE9TvbpNe1LQpXtsGdsiDeVB"
+access_token = "868192136830885889-Vg4Aoz4Gt3L9EtPfus84VmLAOKXy0eF"
+access_token_secret = "ZkKMP6X0MzULzp5bHH6K9WUgnYGSYgnCHrTk3EQUaEhI3"
+twitter_account_sender = "0xDEADBEEF_bot" #without @
+twitter_account_receiver = "ramzi7234" # without @
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -30,12 +30,12 @@ def call_api():
 def store_data(devise, data):
     string = []
     money_name = data[devise]["name"]
-    money_value_dollar = data[devise]["price_usd"]
-    money_value_euro = data[devise]["price_eur"]
+    money_value_dollar = round(float(data[devise]["price_usd"]), 2)
+    money_value_euro = round(float(data[devise]["price_eur"]), 2)
     percent_change_1h = data[devise]["percent_change_1h"]
     percent_change_24h = data[devise]["percent_change_24h"]
 
-    string.append(money_name + " = " + money_value_dollar + "$, " + money_value_euro + u"\u20AC\n")
+    string.append(money_name + " = " + repr(money_value_dollar) + " $, " + repr(money_value_euro) + " E\n")
     string.append("last hour change : ")
     string.append(percent_change_1h + "%\n")
     string.append("last 24h change : ")
@@ -49,10 +49,10 @@ def print_string(string):
 
 def tweet_alert(string, limit):
     split_string = string[0].split(" ")
-    euro = split_string[3].split(".")
+    euro = split_string[2].split(".")
     tweet_current_value(''.join(string))
     if int(euro[0]) <= int(limit):
-        tweet = twitter_account_receiver + "\n" + ''.join(string)
+        tweet = "@" + twitter_account_receiver + "\n" + ''.join(string)
         try:
             api.update_status(status=tweet)
         except:
