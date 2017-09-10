@@ -9,12 +9,12 @@ import time
 bitcoin = 0
 ethereum = 1
 
-consumer_key = "FaPyaPbwQaTowyoNqYaocSrSx"
-consumer_secret = "nv48mkV2OJWa3WHaD7ftaP7NtNdE9TvbpNe1LQpXtsGdsiDeVB"
-access_token = "868192136830885889-Vg4Aoz4Gt3L9EtPfus84VmLAOKXy0eF"
-access_token_secret = "ZkKMP6X0MzULzp5bHH6K9WUgnYGSYgnCHrTk3EQUaEhI3"
-twitter_account_sender = "0xDEADBEEF_bot" #without @
-twitter_account_receiver = "ramzi7234" # without @
+consumer_key = ""
+consumer_secret = ""
+access_token = ""
+access_token_secret = ""
+twitter_account_sender = "" #without @
+twitter_account_receiver = "" # without @
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -35,7 +35,7 @@ def store_data(devise, data):
     percent_change_1h = data[devise]["percent_change_1h"]
     percent_change_24h = data[devise]["percent_change_24h"]
 
-    string.append(money_name + " = " + repr(money_value_dollar) + " $, " + repr(money_value_euro) + " E\n")
+    string.append("#" + money_name + " = " + repr(money_value_dollar) + " $, " + repr(money_value_euro) + " E\n")
     string.append("last hour change : ")
     string.append(percent_change_1h + "%\n")
     string.append("last 24h change : ")
